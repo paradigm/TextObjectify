@@ -30,8 +30,8 @@ seek ahead and jump to a text object if the cursor is not already within one.
 For example, consider a buffer that contains nothing but the following:
 
     """
-    this is example code.
-     section is multiple lines
+    some example code.
+    section is multiple lines
     """
 
     if (getinput() == "yes") {
@@ -44,7 +44,7 @@ If the cursor is on the "p" in "print" and the user types
     vi{
 
 The area between the { and } characters will be selected.  However, if the
-cursor is on the "t" in "this" and the user types
+cursor is on the "s" in "some" and the user types
 
     vi"
 
