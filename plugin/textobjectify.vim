@@ -40,8 +40,8 @@ let s:defaults = ["w","W","s","p","[","]","(",")","b","<",">","t","}","{","B",'"
 " mappings to call plugin rather than vim text objects
 onoremap <silent> i      :<c-u>call TextObjectify(v:operator,'i')<cr>
 onoremap <silent> a      :<c-u>call TextObjectify(v:operator,'a')<cr>
-vnoremap <silent> i <esc>:<c-u>call TextObjectify(visualmode(),'i')<cr>
-vnoremap <silent> a <esc>:<c-u>call TextObjectify(visualmode(),'a')<cr>
+xnoremap <silent> i <esc>:<c-u>call TextObjectify(visualmode(),'i')<cr>
+xnoremap <silent> a <esc>:<c-u>call TextObjectify(visualmode(),'a')<cr>
 
 
 function! TextObjectify(mode,ia)
