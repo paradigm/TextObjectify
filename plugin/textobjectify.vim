@@ -305,3 +305,5 @@ function! s:SearchAnyLine()
 		endif
 	endwhile
 endfunction
+
+" vim: noet sw=8 sts=8
