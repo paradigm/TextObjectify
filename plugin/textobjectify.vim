@@ -8,10 +8,10 @@
 "
 " See textobjectify.txt for documentation.
 
-if exists('g:textobjectify_loaded')
+if exists('g:loaded_textobjectify') || &cp
 	finish
 endif
-let g:textobjectify_loaded = 1
+let g:loaded_textobjectify = 1
 
 " if the user did not configure textobjectify, use the following as a default
 if !exists("g:textobjectify")
