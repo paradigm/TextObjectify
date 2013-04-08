@@ -280,12 +280,12 @@ function! s:SearchSameLine()
 		" check if we've exhausted the search range.  if so, abort.
 		" otherwise, move cursor and try again next loop
 		if s:seek == 1
-			if col(".") == col("$")-1
+			if col(".") >= col("$")-1
 				return 0
 			endif
 			execute "normal! \<right>"
 		else
-			if col(".") == col("^")+1
+			if col(".") <= col("^")+1
 				return 0
 			endif
 			execute "normal! \<left>"
