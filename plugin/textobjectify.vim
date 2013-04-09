@@ -201,6 +201,15 @@ function! s:CursorInRange()
 	" find left/right bounds, if they exist.  use a single searchpairpos() if
 	" left/right bounds are different; otherwise, use searchpos() in both
 	" directions.
+
+	" we have to handle the situation where the cursor is on the left
+	" delimiter OR the right delimiter, but we can't check just allow the
+	" cursor to be under both delimiter at the same time or it will accept
+	" just a single character as a "range".  instead, check if we're in a
+	" range where only the left bound is allowed under the cursor, and if that
+	" fails, check if we're in a range where the right bound is allowed under
+	" the cursor.
+
 	if(s:left != s:right)
 		let s:l1 = searchpairpos(s:left,'',s:right,'Wncb')[0]
 		let s:c1 = searchpairpos(s:left,'',s:right,'Wncb')[1]
@@ -213,8 +222,26 @@ function! s:CursorInRange()
 		let s:c2 = searchpos(s:right,'Wn')[1]
 	endif
 
-	" if any of the bounds were set to 0, then the cursor is not in range.
-	" otherwise, it is.  return accordingly
+	" if none of the bounds are set to 0, the cursor is in range
+	if(s:l1 != 0 && s:c1 != 0 && s:l2 != 0 && s:c2 != 0)
+		return 1
+	endif
+
+	" check if it is a valid range when cursor is under other delimiter
+	if(s:left != s:right)
+		let s:l1 = searchpairpos(s:left,'',s:right,'Wnb')[0]
+		let s:c1 = searchpairpos(s:left,'',s:right,'Wnb')[1]
+		let s:l2 = searchpairpos(s:left,'',s:right,'Wnc')[0]
+		let s:c2 = searchpairpos(s:left,'',s:right,'Wnc')[1]
+	else
+		let s:l1 = searchpos(s:left, 'Wnb')[0]
+		let s:c1 = searchpos(s:left, 'Wnb')[1]
+		let s:l2 = searchpos(s:right,'Wnc')[0]
+		let s:c2 = searchpos(s:right,'Wnc')[1]
+	endif
+
+	" if none of the bounds are set to 0, the cursor is in range (and under
+	" right delimiter), otherwise, not in range.
 	if(s:l1 != 0 && s:c1 != 0 && s:l2 != 0 && s:c2 != 0)
 		return 1
 	else
