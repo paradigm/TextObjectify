@@ -126,27 +126,24 @@ function! TextObjectify(mode,ia)
 	if (s:mode ==# "v" || s:mode ==# "V" || s:mode ==# "\<c-v>") &&
 				\(col("'<") != col("'>") || line("'<") != line("'>"))
 		let s:invisual = 1
-		" if there is one and 'i' is used, expand selected area so we can
-		" re-select a larger area
-		if s:ia == 'i'
-			" if seeking forward, expand forward
-			if s:seek == 1
-				if col(".") < col("$")-1
-					execute "normal! \<right>"
-				else
-					execute "normal! \<down>$"
-				endif
+		" move cursor out of selected area so a re-select will select a larger
+		" area
+		if s:seek == 2
+			if col(".") < col("$")-1
+				execute "normal! \<right>"
 			else
-				" if seeking backward, expand backward
-				if col(".") > col("^")+1
-					execute "normal! \<left>"
-				else
-					execute "normal! \<up>0"
-				endif
+				execute "normal! \<down>$"
 			endif
-			let s:origline = line('.')
-			let s:origcol  = col('.')
+		else
+			" if seeking backward, expand backward
+			if col(".") > col("^")+1
+				execute "normal! \<left>"
+			else
+				execute "normal! \<up>0"
+			endif
 		endif
+		let s:origline = line('.')
+		let s:origcol  = col('.')
 	else
 		let s:invisual = 0
 	endif
