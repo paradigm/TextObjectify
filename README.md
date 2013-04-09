@@ -21,8 +21,8 @@ seek ahead and jump to a text object if the cursor is not already within one.
 For example, consider a buffer that contains nothing but the following:
 
     """
-    this is example code.
-     section is multiple lines
+    some example code.
+    section is multiple lines
     """
 
     if (getinput() == "yes") {
@@ -30,12 +30,12 @@ For example, consider a buffer that contains nothing but the following:
         counter += 1
     }
 
-If the cursor is on the "p" in "print" and the user types
+If the cursor is on the `p` in `print` and the user types
 
     vi{
 
 The area between the { and } characters will be selected.  However, if the
-cursor is on the "t" in "this" and the user types
+cursor is on the `s` in `some` and the user types
 
     vi"
 
@@ -43,13 +43,13 @@ nothing will happen, because quote-like text-objects do not work on multiple
 lines.  With TextObjectify, the two lines between the triple quote sets will be
 selected - the parenthesis-style text-object functionality will apply.
 
-If the cursor is on the "p" in "print" and the user types
+If the cursor is on the `p` in `print` and the user types
 
     vi"
 
-the string "this is an example" will be selected, because quote-style
+the string `this is an example` will be selected, because quote-style
 text-objects seek forward on the same line when looking for an object.
-However, if the cursor is on the "i" in "if" and the user types
+However, if the cursor is on the `i` in `if` and the user types
 
     vi(
 
@@ -59,8 +59,8 @@ between the parenthesis will be selected.
 
 In addition to improving how existing text-objects function, TextObjectify
 allows user to create custom text-objects.  To serve as examples,
-TextObjectify comes with two custom text objects: "<cr>" will operate over the
-entire buffer and "V" will operate over a block of viml.  With default
+TextObjectify comes with two custom text objects: `<cr>` will operate over the
+entire buffer and `V` will operate over a block of viml.  With default
 TextObjectify, if a user types
 
     "+ya<cr>
@@ -74,8 +74,8 @@ Consider a buffer that contains the following:
         return 0
     endif
 
-If the cursor is on any of the lines shown and the user enters "viV", the
-"echo" and "return" lines will be selected.
+If the cursor is on any of the lines shown and the user enters `viV`, the
+`echo` and `return` lines will be selected.
 
 Moreover, TextObjectify has the ability to create text-objects on-the-fly if
 an object is requested that is not provided by Vim out of the box and is not
@@ -110,7 +110,7 @@ On a Windows system without a plugin manager, the textobjectify.vim file should 
 
     %USERPROFILE%\vimfiles\plugin\textobjectify.vim
 
-On a Windows system with pathogen, the multicursor.vim file should be located at:
+On a Windows system with pathogen, the textobjectify.vim file should be located at:
 
     %USERPROFILE%\vimfiles\bundle\textobjectify\plugin\textobjectify.vim
 
@@ -118,7 +118,7 @@ If you are using a plugin manager other than pathogen, see its documentation
 for how to install TextObjectify - it should be comparable to other plugins.
 
 If you would like the documentation to also be installed, include textobjectify.txt
-into the relevant directory described above, replacing "plugin" with "doc".
+into the relevant directory described above, replacing `plugin` with `doc`.
 
 TextObjectify should have same defaults and be useful without any additional
 configuration.  However, to get the most out of TextObjectify, it is
@@ -150,7 +150,7 @@ All TextObjectify objects have the following attributes:
   defaults to having the left item of the pairs search forward and the right
   item search backwards.
 - 'line': If set to '1', it will force the object to act as though it is
-  selected linewise.  The "V" text-object which TextObjectify comes with acts
+  selected linewise.  The `V` text-object which TextObjectify comes with acts
   this way.
 
 g:textobjectify is a Dictionary.  Each key is the character which is used
@@ -162,8 +162,8 @@ attributes.  For example, the default g:textobjectify is:
                 \')': {'left': '(', 'right': ')', 'same': 0, 'seek': 2, 'line': 0},
                 \'{': {'left': '{', 'right': '}', 'same': 0, 'seek': 1, 'line': 0},
                 \'}': {'left': '{', 'right': '}', 'same': 0, 'seek': 2, 'line': 0},
-                \'[': {'left': '[', 'right': ']', 'same': 0, 'seek': 1, 'line': 0},
-                \']': {'left': '[', 'right': ']', 'same': 0, 'seek': 2, 'line': 0},
+                \'[': {'left': '\[', 'right': '\]', 'same': 0, 'seek': 1, 'line': 0},
+                \']': {'left': '\[', 'right': '\]', 'same': 0, 'seek': 2, 'line': 0},
                 \'<': {'left': '<', 'right': '>', 'same': 0, 'seek': 1, 'line': 0},
                 \'>': {'left': '<', 'right': '>', 'same': 0, 'seek': 2, 'line': 0},
                 \'"': {'left': '"', 'right': '"', 'same': 1, 'seek': 1, 'line': 0},

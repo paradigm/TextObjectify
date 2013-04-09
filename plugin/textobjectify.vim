@@ -8,10 +8,10 @@
 "
 " See textobjectify.txt for documentation.
 
-if exists('g:textobjectify_loaded')
+if exists('g:loaded_textobjectify') || &cp
 	finish
 endif
-let g:textobjectify_loaded = 1
+let g:loaded_textobjectify = 1
 
 " if the user did not configure textobjectify, use the following as a default
 if !exists("g:textobjectify")
@@ -20,8 +20,8 @@ if !exists("g:textobjectify")
 				\')': {'left': '(', 'right': ')', 'same': 0, 'seek': 2, 'line': 0},
 				\'{': {'left': '{', 'right': '}', 'same': 0, 'seek': 1, 'line': 0},
 				\'}': {'left': '{', 'right': '}', 'same': 0, 'seek': 2, 'line': 0},
-				\'[': {'left': '[', 'right': ']', 'same': 0, 'seek': 1, 'line': 0},
-				\']': {'left': '[', 'right': ']', 'same': 0, 'seek': 2, 'line': 0},
+				\'[': {'left': '\[', 'right': '\]', 'same': 0, 'seek': 1, 'line': 0},
+				\']': {'left': '\[', 'right': '\]', 'same': 0, 'seek': 2, 'line': 0},
 				\'<': {'left': '<', 'right': '>', 'same': 0, 'seek': 1, 'line': 0},
 				\'>': {'left': '<', 'right': '>', 'same': 0, 'seek': 2, 'line': 0},
 				\'"': {'left': '"', 'right': '"', 'same': 1, 'seek': 1, 'line': 0},
@@ -38,10 +38,10 @@ endif
 let s:defaults = ["w","W","s","p","[","]","(",")","b","<",">","t","}","{","B",'"',"'"]
 
 " mappings to call plugin rather than vim text objects
-onoremap i      :<c-u>call TextObjectify(v:operator,'i')<cr>
-onoremap a      :<c-u>call TextObjectify(v:operator,'a')<cr>
-vnoremap i <esc>:<c-u>call TextObjectify(visualmode(),'i')<cr>
-vnoremap a <esc>:<c-u>call TextObjectify(visualmode(),'a')<cr>
+onoremap <silent> i      :<c-u>call TextObjectify(v:operator,'i')<cr>
+onoremap <silent> a      :<c-u>call TextObjectify(v:operator,'a')<cr>
+xnoremap <silent> i <esc>:<c-u>call TextObjectify(visualmode(),'i')<cr>
+xnoremap <silent> a <esc>:<c-u>call TextObjectify(visualmode(),'a')<cr>
 
 
 function! TextObjectify(mode,ia)
@@ -307,15 +307,20 @@ function! s:SearchSameLine()
 		" check if we've exhausted the search range.  if so, abort.
 		" otherwise, move cursor and try again next loop
 		if s:seek == 1
-			if col(".") == col("$")-1
+			" seek forward
+			if col(".") >= col("$")-1
 				return 0
 			endif
 			execute "normal! \<right>"
-		else
-			if col(".") == col("^")+1
+		elseif s:seek == 2
+			" seek backward
+			if col(".") <= col("^")+1
 				return 0
 			endif
 			execute "normal! \<left>"
+		else
+			" don't seek
+			return 0
 		endif
 	endwhile
 endfunction
@@ -332,3 +337,5 @@ function! s:SearchAnyLine()
 		endif
 	endwhile
 endfunction
+
+" vim: noet sw=8 sts=8
